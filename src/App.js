@@ -1,12 +1,40 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import './App.css';
 
-function B2({ log }) {
+// Logger
+
+function Logger() {
+  return {
+    log: (message) => {
+      console.log(message);
+    }
+  }
+}
+
+// Logger with hooks
+
+const LoggerContext = React.createContext(null);
+
+export const LoggerProvider = ({ children }) => {
+  const [logger] = useState(() => Logger());
+
+  return <LoggerContext.Provider value={logger}>{children}</LoggerContext.Provider>;
+};
+
+export const useLogger = () => {
+  return useContext(LoggerContext);
+};
+
+// App
+
+function B2() {
   const [clicks, setClicks] = useState(0);
 
+  const logger = useLogger();
+
   useEffect(() => {
-    log(`B2 value: ${clicks}`)
-  }, [clicks, log]);
+    logger.log(`B2 value: ${clicks}`)
+  }, [logger, clicks]);
 
   const handleClick = () => {
     setClicks(clicks + 1);
@@ -18,21 +46,19 @@ function B2({ log }) {
 function App() {
   const [clicks, setClicks] = useState(0);
 
-  const log = (message) => {
-    console.log(message);
-  }
-
   const handleClick = () => {
     setClicks(clicks + 1);
   }
 
   return (
+    <LoggerProvider>
     <div className="App">
       <header className="App-header">
         <button onClick={handleClick}>B1: {clicks}</button>
-        <B2 log={log}/>
+        <B2 />
       </header>
     </div>
+    </LoggerProvider>
   );
 }
 
