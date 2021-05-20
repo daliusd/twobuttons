@@ -1,12 +1,26 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect, useReducer, useContext } from 'react';
 import './App.css';
+
+function reducer(state, action) {
+  switch (action.type) {
+    case 'setMessage':
+      return {message: action.message};
+    default:
+      throw new Error();
+  }
+}
+
+const MessageDispatch = React.createContext(null);
+
+// App
 
 function B2({ log }) {
   const [clicks, setClicks] = useState(0);
+  const dispatch = useContext(MessageDispatch);
 
   useEffect(() => {
-    log(`B2 value: ${clicks}`)
-  }, [clicks, log]);
+    dispatch({ type: 'setMessage', message: `B2 value: ${clicks}` })
+  }, [clicks, dispatch]);
 
   const handleClick = () => {
     setClicks(clicks + 1);
@@ -16,23 +30,32 @@ function B2({ log }) {
 }
 
 function App() {
+  const [state, dispatch] = useReducer(reducer, { message: '' });
   const [clicks, setClicks] = useState(0);
 
-  const log = (message) => {
-    console.log(message);
-  }
+  useEffect(() => {
+    if (state.message) {
+      console.log(state.message);
+    }
+  }, [state.message])
 
   const handleClick = () => {
     setClicks(clicks + 1);
   }
 
+  // useEffect(() => {
+  //   dispatch({ type: 'setMessage', message: `B1 value: ${clicks}` })
+  // }, [clicks]);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <button onClick={handleClick}>B1: {clicks}</button>
-        <B2 log={log}/>
-      </header>
-    </div>
+    <MessageDispatch.Provider value={dispatch}>
+      <div className="App">
+        <header className="App-header">
+          <button onClick={handleClick}>B1: {clicks}</button>
+          <B2/>
+        </header>
+      </div>
+    </MessageDispatch.Provider>
   );
 }
 
