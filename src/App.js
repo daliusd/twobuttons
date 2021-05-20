@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import './App.css';
 
 function B2({ log }) {
@@ -18,9 +18,9 @@ function B2({ log }) {
 function App() {
   const [clicks, setClicks] = useState(0);
 
-  const log = (message) => {
+  const log = useCallback((message) => {
     console.log(message);
-  }
+  }, []);
 
   const handleClick = () => {
     setClicks(clicks + 1);
