@@ -24,6 +24,11 @@
   color: white;
 }
 
+.App-header button {
+  margin: 0.5em;
+  font-size: 4em;
+}
+
 .App-link {
   color: #61dafb;
 }
