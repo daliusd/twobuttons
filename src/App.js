@@ -6,7 +6,7 @@ function B2({ log }) {
 
   useEffect(() => {
     log(`B2 value: ${clicks}`)
-  }, [clicks, log]);
+  }, [clicks]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleClick = () => {
     setClicks(clicks + 1);
