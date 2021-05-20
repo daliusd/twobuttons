@@ -1,8 +1,12 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import './App.css';
 
-function B2() {
+function B2({ log }) {
   const [clicks, setClicks] = useState(0);
+
+  useEffect(() => {
+    log(`B2 value: ${clicks}`)
+  }, [clicks, log]);
 
   const handleClick = () => {
     setClicks(clicks + 1);
@@ -14,6 +18,10 @@ function B2() {
 function App() {
   const [clicks, setClicks] = useState(0);
 
+  const log = (message) => {
+    console.log(message);
+  }
+
   const handleClick = () => {
     setClicks(clicks + 1);
   }
@@ -22,7 +30,7 @@ function App() {
     <div className="App">
       <header className="App-header">
         <button onClick={handleClick}>B1: {clicks}</button>
-        <B2/>
+        <B2 log={log}/>
       </header>
     </div>
   );
