@@ -52,12 +52,12 @@ function App() {
 
   return (
     <LoggerProvider>
-    <div className="App">
-      <header className="App-header">
-        <button onClick={handleClick}>B1: {clicks}</button>
-        <B2 />
-      </header>
-    </div>
+      <div className="App">
+        <header className="App-header">
+          <button onClick={handleClick}>B1: {clicks}</button>
+          <B2 />
+        </header>
+      </div>
     </LoggerProvider>
   );
 }
